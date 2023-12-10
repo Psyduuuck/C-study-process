@@ -1,0 +1,42 @@
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class Person {
+public:
+    int m_age;
+    int* m_height;
+
+    // 无参默认构造函数
+    Person() : m_age(0), m_height(nullptr) {
+        cout << "无参构造函数" << endl;
+    }
+
+    // 有参构造函数
+    Person(int age, int height) : m_age(age), m_height(new int(height)) {
+        cout << "有参构造函数" << endl;
+    }
+
+    // 析构函数
+    ~Person() {
+        cout << "析构函数" << endl;
+        delete m_height;
+    }
+
+    // 拷贝构造函数（深拷贝）
+    Person(const Person& other) : m_age(other.m_age), m_height(new int(*other.m_height)) {
+        cout << "拷贝构造函数" << endl;
+    }
+
+    // 赋值运算符（深拷贝）
+    Person& operator=(const Person& other) {
+        cout << "赋值运算符" << endl;
+        if (this != &other) {
+            m_age = other.m_age;
+            delete m_height;
+            m_height = new int(*other.m_height);
+        }
+        return *this;
+    }
+};
